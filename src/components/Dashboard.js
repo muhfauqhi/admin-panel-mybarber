@@ -2,9 +2,15 @@ import { Avatar, Breadcrumb, Layout, Menu } from "antd";
 import Title from "antd/lib/typography/Title";
 import SubMenu from "antd/lib/menu/SubMenu";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
+import { Redirect } from "react-router-dom";
 const { Content, Footer, Header, Sider } = Layout;
 
 const Dashboard = () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Redirect to="/" />;
+  }
   return (
     <Layout>
       <Header style={{ padding: 10 }}>
@@ -15,6 +21,7 @@ const Dashboard = () => {
         <Sider style={{ background: "white" }}>
           <Menu defaultSelectedKeys={["Dashboard"]} mode="inline">
             <Menu.Item key="Dashboard">Dashboard</Menu.Item>
+            <Menu.Item key="Booking">Booking</Menu.Item>
             <Menu.Item key="Barber">Barber</Menu.Item>
             <Menu.Item key="User">User</Menu.Item>
             <SubMenu
