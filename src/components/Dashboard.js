@@ -5,129 +5,132 @@ import {
   Menu,
   Dropdown,
   Button,
-  message,
+  // message,
 } from "antd";
+import React from "react";
 import Title from "antd/lib/typography/Title";
 import SubMenu from "antd/lib/menu/SubMenu";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { Redirect } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
 import UserContent from "./menu/User.Content";
+import ServiceContent from "./menu/Service.Content";
+import BarberContent from "./menu/Barber.Content";
 
 const { Content, Footer, Header, Sider } = Layout;
 
-const Dashboard = () => {
-  const [redirect, setRedirect] = useState(false);
+class Dashboard extends React.Component {
+  state = {
+    current: "Dashboard",
+    redirect: false,
+    token: localStorage.getItem("token"),
+  };
 
-  const token = localStorage.getItem("token");
+  handleClick = (e) => {
+    this.setState({ current: e.key });
+  };
 
-  if (!token) {
-    return <Redirect to="/" />;
-  }
+  setRedirect = () => {
+    this.state({
+      redirect: true,
+    });
+  };
 
-  const onClick = () => {
+  onClick = () => {
     localStorage.removeItem("token");
-    setRedirect(true);
   };
 
-  var data = () => {
-    axios
-      .get("http://localhost:3000/api/user", {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((res) => {
-        if (res) {
-          var user = res.data.data;
-          console.log(user);
-          return user;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="/target" />;
+    }
   };
 
-  if (token) {
-    axios
-      .get("http://localhost:3000/api/dashboard", {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .catch((error) => {
-        message.error(error.message, 3);
-        setTimeout(() => {
-          localStorage.removeItem("token");
-          setRedirect(true);
-        }, 3000);
-      });
-  }
+  render() {
+    if (!this.state.token) {
+      return <Redirect to="/" />;
+    }
 
-  return (
-    <Layout>
-      {redirect && <Redirect to="/" />}
-      <Header style={{ padding: 10 }}>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item>
-                <Button type="text" onClick={onClick}>
-                  Logout
-                </Button>
-                <Button type="text" onClick={data}>
-                  data
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <Avatar style={{ float: "right" }} icon={<UserOutlined />}></Avatar>
-        </Dropdown>
-        <Title style={{ color: "white" }}>MyBarber</Title>
-      </Header>
+    // if (this.state.token) {
+    //   axios
+    //     .get("http://localhost:3000/api/dashboard", {
+    //       headers: {
+    //         Authorization: this.state.token,
+    //       },
+    //     })
+    //     .catch((error) => {
+    //       message.error(error.message, 3);
+    //       setTimeout(() => {
+    //         localStorage.removeItem("token");
+    //         this.setState({ redirect: true });
+    //       }, 3000);
+    //     });
+    // }
+    return (
       <Layout>
-        <Sider style={{ background: "white" }}>
-          <Menu defaultSelectedKeys={["Dashboard"]} mode="inline">
-            <Menu.Item key="Dashboard">Dashboard</Menu.Item>
-            <Menu.Item key="Booking">Booking</Menu.Item>
-            <Menu.Item key="User">User</Menu.Item>
-            <Menu.Item key="Barber">Barber</Menu.Item>
-            <Menu.Item key="Service">Service</Menu.Item>
-            <SubMenu
-              title={
-                <span>
-                  <MailOutlined />
-                  <span>About Us</span>
-                </span>
-              }
-            >
-              <Menu.ItemGroup title="Country">
-                <Menu.Item key="location1">Location 1</Menu.Item>
-                <Menu.Item key="location2">Location 2</Menu.Item>
-              </Menu.ItemGroup>
-            </SubMenu>
-          </Menu>
-        </Sider>
+        {this.renderRedirect()}
+        <Header style={{ padding: 10 }}>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item>
+                  <Button type="text" onClick={this.onClick}>
+                    Logout
+                  </Button>
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <Avatar style={{ float: "right" }} icon={<UserOutlined />}></Avatar>
+          </Dropdown>
+          <Title style={{ color: "white" }}>MyBarber</Title>
+        </Header>
         <Layout>
-          <Content style={{ padding: "0 50px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            </Breadcrumb>
-            <div style={{ background: "#fff", padding: 24, minHeight: 580 }}>
-              {/* Content */}
-              {UserContent.apply()}
-            </div>
-          </Content>
-          <Footer style={{ textAlign: "center" }}>
-            Ant Design Layout example create by muhfauqhi
-          </Footer>
+          <Sider style={{ background: "white" }}>
+            <Menu
+              onClick={this.handleClick}
+              defaultSelectedKeys={["Dashboard"]}
+              mode="inline"
+            >
+              <Menu.Item key="Dashboard">Dashboard</Menu.Item>
+              <Menu.Item key="Booking">Booking</Menu.Item>
+              <Menu.Item key="User">User</Menu.Item>
+              <Menu.Item key="Barber">Barber</Menu.Item>
+              <Menu.Item key="Service">Service</Menu.Item>
+              <SubMenu
+                title={
+                  <span>
+                    <MailOutlined />
+                    <span>About Us</span>
+                  </span>
+                }
+              >
+                <Menu.ItemGroup title="Country">
+                  <Menu.Item key="location1">Location 1</Menu.Item>
+                  <Menu.Item key="location2">Location 2</Menu.Item>
+                </Menu.ItemGroup>
+              </SubMenu>
+            </Menu>
+          </Sider>
+          <Layout>
+            <Content style={{ padding: "0 50px" }}>
+              <Breadcrumb style={{ margin: "16px 0" }}>
+                <Breadcrumb.Item>{this.state.current}</Breadcrumb.Item>
+              </Breadcrumb>
+              <div style={{ background: "#fff", padding: 24, minHeight: 580 }}>
+                {/* Content */}
+                <UserContent />
+                <BarberContent />
+                <ServiceContent />
+              </div>
+            </Content>
+            <Footer style={{ textAlign: "center" }}>
+              Ant Design Layout example create by muhfauqhi
+            </Footer>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
-  );
-};
+    );
+  }
+}
 
 export default Dashboard;

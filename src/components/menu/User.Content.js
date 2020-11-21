@@ -53,7 +53,6 @@ const UserContent = () => {
     //   key: "createdAt",
     // },
   ];
-  // console.log(content.data);
   return <Table dataSource={content.data} columns={columns}></Table>;
 };
 

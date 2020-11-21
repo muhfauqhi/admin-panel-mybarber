@@ -6,9 +6,18 @@ const BarberContent = () => {
   const [content, setContent] = useState("");
 
   useEffect(() => {
-    AdminService.getUserAll().then(
+    AdminService.getBarberAll().then(
       (response) => {
         setContent(response.data);
+        const barber = response.data;
+        console.log(barber);
+        const barberModel = {
+          name: barber.name,
+          rate: barber.rate,
+          description: barber.description,
+          workingDays: [barber.workingDays],
+        };
+        // console.log(barberModel);
       },
       (error) => {
         const _content =
@@ -23,37 +32,31 @@ const BarberContent = () => {
 
   const columns = [
     {
-      title: "Username",
-      dataIndex: "username",
-      key: "username",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: "Full Name",
-      dataIndex: "fullname",
-      key: "fullname",
+      title: "Rate",
+      dataIndex: "rate",
+      key: "rate",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
+      title: "Service",
+      dataIndex: "serviceId",
+      key: "serviceId",
     },
     {
-      title: "Phone Number",
-      dataIndex: "phone",
-      key: "phone",
+      title: "Working Days",
+      dataIndex: "workingDays",
+      key: "workingDays",
     },
-    // {
-    //   title: "Join Date",
-    //   dataIndex: "createdAt",
-    //   key: "createdAt",
-    // },
   ];
-  // console.log(content.data);
   return <Table dataSource={content.data} columns={columns}></Table>;
 };
 
