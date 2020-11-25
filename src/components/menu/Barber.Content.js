@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import AdminService from "../../services/admin.service";
 
 const BarberContent = () => {
@@ -8,16 +8,35 @@ const BarberContent = () => {
   useEffect(() => {
     AdminService.getBarberAll().then(
       (response) => {
-        setContent(response.data);
-        const barber = response.data;
-        console.log(barber);
-        const barberModel = {
-          name: barber.name,
-          rate: barber.rate,
-          description: barber.description,
-          workingDays: [barber.workingDays],
-        };
-        // console.log(barberModel);
+        const barber = response.data.data;
+        let result = [];
+        barber.forEach((data) => {
+          let temp = {
+            name: data.name,
+            rate: data.rate,
+            description: data.description,
+            service: [],
+            workingDays: [],
+          };
+          let tempService = [];
+          let tempWorkingDays = [];
+          data.service_id.forEach((service) => {
+            tempService.push(service.name);
+          });
+          data.workingDays.forEach((days) => {
+            if (days === 1) tempWorkingDays.push("Monday");
+            else if (days === 2) tempWorkingDays.push("Tuesday");
+            else if (days === 3) tempWorkingDays.push("Wednesday");
+            else if (days === 4) tempWorkingDays.push("Thursday");
+            else if (days === 5) tempWorkingDays.push("Friday");
+            else if (days === 6) tempWorkingDays.push("Saturday");
+            else if (days === 7) tempWorkingDays.push("Sunday");
+          });
+          temp.service = tempService;
+          temp.workingDays = tempWorkingDays;
+          result.push(temp);
+        });
+        setContent(result);
       },
       (error) => {
         const _content =
@@ -47,17 +66,39 @@ const BarberContent = () => {
       key: "description",
     },
     {
-      title: "Service",
-      dataIndex: "serviceId",
-      key: "serviceId",
-    },
-    {
       title: "Working Days",
       dataIndex: "workingDays",
       key: "workingDays",
+      render: (workingDays) => (
+        <>
+          {workingDays.map((workingDays) => {
+            return (
+              <Tag color="blue" key={workingDays}>
+                {workingDays}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      title: "Service",
+      key: "service",
+      dataIndex: "service",
+      render: (service) => (
+        <>
+          {service.map((service) => {
+            return (
+              <Tag color="green" key={service}>
+                {service.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
     },
   ];
-  return <Table dataSource={content.data} columns={columns}></Table>;
+  return <Table dataSource={content} columns={columns}></Table>;
 };
 
 export default BarberContent;

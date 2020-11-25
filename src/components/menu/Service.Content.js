@@ -8,7 +8,16 @@ const ServiceContent = () => {
   useEffect(() => {
     AdminService.getServiceAll().then(
       (response) => {
-        setContent(response.data);
+        const service = response.data.data;
+        let result = [];
+        service.forEach((data) => {
+          let temp = {
+            name: data.name,
+            duration: data.duration / 60 + " hour(s)",
+          };
+          result.push(temp);
+        });
+        setContent(result);
       },
       (error) => {
         const _content =
@@ -34,7 +43,7 @@ const ServiceContent = () => {
     },
   ];
 
-  return <Table dataSource={content.data} columns={columns}></Table>;
+  return <Table dataSource={content} columns={columns}></Table>;
 };
 
 export default ServiceContent;

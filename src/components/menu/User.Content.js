@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table } from "antd";
 import AdminService from "../../services/admin.service";
+import moment from "moment";
 
 const UserContent = () => {
   const [content, setContent] = useState("");
@@ -8,7 +9,21 @@ const UserContent = () => {
   useEffect(() => {
     AdminService.getUserAll().then(
       (response) => {
-        setContent(response.data);
+        const user = response.data.data;
+        let result = [];
+        user.forEach((data) => {
+          let temp = {
+            username: data.username,
+            fullname: data.fullname,
+            email: data.email,
+            role: data.role,
+            phone: data.phone,
+            createdAt: moment(data.createdAt).format("MMMM DD YYYY hh:mm:ss A"),
+          };
+          result.push(temp);
+          console.log(temp);
+        });
+        setContent(result);
       },
       (error) => {
         const _content =
@@ -47,13 +62,13 @@ const UserContent = () => {
       dataIndex: "phone",
       key: "phone",
     },
-    // {
-    //   title: "Join Date",
-    //   dataIndex: "createdAt",
-    //   key: "createdAt",
-    // },
+    {
+      title: "Join Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+    },
   ];
-  return <Table dataSource={content.data} columns={columns}></Table>;
+  return <Table dataSource={content} columns={columns}></Table>;
 };
 
 export default UserContent;
