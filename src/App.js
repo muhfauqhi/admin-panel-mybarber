@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import "antd/dist/antd.css";
 import ResetPassword from "./components/ResetPassword";
+import Barber from "./components/Barber";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route exact path="/" component={Login}></Route>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/dashboard" component={Dashboard}></Route>
+        <Route exact path="/barber" component={Barber}></Route>
         <Route exact path="/forgotpassword" component={ForgotPassword}></Route>
         <Route
           exact

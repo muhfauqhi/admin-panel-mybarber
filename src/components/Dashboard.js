@@ -26,11 +26,12 @@ class Dashboard extends React.Component {
   };
 
   handleClick = (e) => {
-    this.setState({ current: e.key });
+    console.log(this.state.current);
+    this.setState({ current: e.key, redirect: true });
   };
 
   setRedirect = () => {
-    this.state({
+    this.setState({
       redirect: true,
     });
   };
@@ -41,7 +42,7 @@ class Dashboard extends React.Component {
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to="/target" />;
+      return <Redirect to={this.state.current.toLowerCase()} />;
     }
   };
 
@@ -49,22 +50,6 @@ class Dashboard extends React.Component {
     if (!this.state.token) {
       return <Redirect to="/" />;
     }
-
-    // if (this.state.token) {
-    //   axios
-    //     .get("http://localhost:3000/api/dashboard", {
-    //       headers: {
-    //         Authorization: this.state.token,
-    //       },
-    //     })
-    //     .catch((error) => {
-    //       message.error(error.message, 3);
-    //       setTimeout(() => {
-    //         localStorage.removeItem("token");
-    //         this.setState({ redirect: true });
-    //       }, 3000);
-    //     });
-    // }
     return (
       <Layout>
         {this.renderRedirect()}
@@ -88,7 +73,8 @@ class Dashboard extends React.Component {
           <Sider style={{ background: "white" }}>
             <Menu
               onClick={this.handleClick}
-              defaultSelectedKeys={["Dashboard"]}
+              // defaultSelectedKeys={this.state.current}
+              selectedKeys={this.state.current}
               mode="inline"
             >
               <Menu.Item key="Dashboard">Dashboard</Menu.Item>

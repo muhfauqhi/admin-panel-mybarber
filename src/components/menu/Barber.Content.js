@@ -1,13 +1,76 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { Table, Tag } from "antd";
 import AdminService from "../../services/admin.service";
 
-const BarberContent = () => {
-  const [content, setContent] = useState("");
+const columns = [
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Rate",
+    dataIndex: "rate",
+    key: "rate",
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+  },
+  {
+    title: "Working Days",
+    dataIndex: "workingDays",
+    key: "workingDays",
+    render: (workingDays) => (
+      <>
+        {workingDays.map((workingDays) => {
+          return (
+            <Tag color="blue" key={workingDays}>
+              {workingDays}
+            </Tag>
+          );
+        })}
+      </>
+    ),
+  },
+  {
+    title: "Service",
+    key: "service",
+    dataIndex: "service",
+    render: (service) => (
+      <>
+        {service.map((service) => {
+          return (
+            <Tag color="green" key={service}>
+              {service.toUpperCase()}
+            </Tag>
+          );
+        })}
+      </>
+    ),
+  },
+];
 
-  useEffect(() => {
-    AdminService.getBarberAll().then(
-      (response) => {
+const weekDays = {
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday",
+  7: "Sunday",
+};
+
+class BarberContent extends React.Component {
+  state = {
+    data: [],
+    loading: true,
+  };
+
+  componentDidMount() {
+    fetch(
+      AdminService.getBarberAll().then((response) => {
         const barber = response.data.data;
         let result = [];
         barber.forEach((data) => {
@@ -24,81 +87,28 @@ const BarberContent = () => {
             tempService.push(service.name);
           });
           data.workingDays.forEach((days) => {
-            if (days === 1) tempWorkingDays.push("Monday");
-            else if (days === 2) tempWorkingDays.push("Tuesday");
-            else if (days === 3) tempWorkingDays.push("Wednesday");
-            else if (days === 4) tempWorkingDays.push("Thursday");
-            else if (days === 5) tempWorkingDays.push("Friday");
-            else if (days === 6) tempWorkingDays.push("Saturday");
-            else if (days === 7) tempWorkingDays.push("Sunday");
+            tempWorkingDays.push(weekDays[days]);
           });
+
           temp.service = tempService;
           temp.workingDays = tempWorkingDays;
           result.push(temp);
         });
-        setContent(result);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      }
+        this.setState({ data: result, loading: false });
+      }),
+      (error) => {}
     );
-  }, []);
+  }
 
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Rate",
-      dataIndex: "rate",
-      key: "rate",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Working Days",
-      dataIndex: "workingDays",
-      key: "workingDays",
-      render: (workingDays) => (
-        <>
-          {workingDays.map((workingDays) => {
-            return (
-              <Tag color="blue" key={workingDays}>
-                {workingDays}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: "Service",
-      key: "service",
-      dataIndex: "service",
-      render: (service) => (
-        <>
-          {service.map((service) => {
-            return (
-              <Tag color="green" key={service}>
-                {service.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-  ];
-  return <Table dataSource={content} columns={columns}></Table>;
-};
+  render() {
+    return (
+      <Table
+        loading={this.state.loading}
+        dataSource={this.state.data}
+        columns={columns}
+      ></Table>
+    );
+  }
+}
 
 export default BarberContent;

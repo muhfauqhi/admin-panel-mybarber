@@ -1,13 +1,29 @@
 import AdminService from "../../services/admin.service";
-import { useState, useEffect } from "react";
+import React from "react";
 import { Table } from "antd";
 
-const ServiceContent = () => {
-  const [content, setContent] = useState("");
+const columns = [
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Duration",
+    dataIndex: "duration",
+    key: "duration",
+  },
+];
 
-  useEffect(() => {
-    AdminService.getServiceAll().then(
-      (response) => {
+class ServiceContent extends React.Component {
+  state = {
+    data: [],
+    loading: true,
+  };
+
+  componentDidMount() {
+    fetch(
+      AdminService.getServiceAll().then((response) => {
         const service = response.data.data;
         let result = [];
         service.forEach((data) => {
@@ -17,33 +33,24 @@ const ServiceContent = () => {
           };
           result.push(temp);
         });
-        setContent(result);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      }
+        this.setState({
+          data: result,
+          loading: false,
+        });
+      }),
+      (error) => {}
     );
-  }, []);
+  }
 
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Duration",
-      dataIndex: "duration",
-      key: "duration",
-    },
-  ];
-
-  return <Table dataSource={content} columns={columns}></Table>;
-};
+  render() {
+    return (
+      <Table
+        loading={this.state.loading}
+        dataSource={this.state.data}
+        columns={columns}
+      ></Table>
+    );
+  }
+}
 
 export default ServiceContent;
