@@ -2,18 +2,14 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/";
 
-const login = (username, password) => {
+const login = (credentials) => {
   return axios
-    .post(API_URL + "login", {
-      username,
-      password,
+    .post(API_URL + "login", credentials)
+    .then((result) => {
+      return result;
     })
-    .then((response) => {
-      const data = response.data;
-      const token = data.token;
-      if (data.role !== "Admin") throw new Error("Unauthorized");
-      localStorage.setItem("token", token);
-      return data;
+    .catch((error) => {
+      return error.response;
     });
 };
 
@@ -21,14 +17,14 @@ const logout = () => {
   localStorage.removeItem("token");
 };
 
-const forgotPassword = () => {
+const forgotPassword = (email) => {
   return axios.put(API_URL + "forgotpassword", { email }).then((response) => {
     const data = response.data;
     return data;
   });
 };
 
-const resetPassword = () => {
+const resetPassword = (password, token) => {
   return axios
     .put(API_URL + "resetpassword", {
       password,
@@ -40,9 +36,30 @@ const resetPassword = () => {
     });
 };
 
+const checkUser = (token) => {
+  return axios
+    .get(API_URL + "dashboard", {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((response) => {
+      const data = response.data.data;
+      if (data.role !== "Admin") {
+        return "Unauthorized";
+      } else {
+        return data;
+      }
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
 export default {
   login,
   logout,
   forgotPassword,
   resetPassword,
+  checkUser,
 };

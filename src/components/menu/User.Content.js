@@ -2,7 +2,6 @@ import React from "react";
 import { Table } from "antd";
 import AdminService from "../../services/admin.service";
 import moment from "moment";
-import Dashboard from "../../components/Dashboard";
 
 const columns = [
   {
@@ -76,7 +75,6 @@ class UserContent extends React.Component {
         columns={columns}
       ></Table>
     );
-    // return <Dashboard />;
   }
 }
 

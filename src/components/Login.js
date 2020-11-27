@@ -1,97 +1,93 @@
 import { Form, Input, Button, Col, Row, Card, Divider, Alert } from "antd";
 import { Layout } from "antd";
-import axios from "axios";
-import { useState } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
-const Login = () => {
-  const [redirect, setRedirect] = useState(false);
-  const [error, setError] = useState("");
-
-  const onFinish = (data) => {
-    axios
-      .post("http://localhost:3000/api/login", data)
-      .then((result) => {
-        console.log(result.data.token);
-        if (result) {
-          const token = result.data.token;
-          axios
-            .get("http://localhost:3000/api/dashboard", {
-              headers: {
-                Authorization: token,
-              },
-            })
-            .then((res) => {
-              const data = res.data.data;
-              if (data.role !== "Admin") {
-                setError("Unauthorized");
-              } else {
-                localStorage.setItem("token", token);
-                setRedirect(true);
-              }
-            });
-        }
-      })
-      .catch((err) => {
-        const error = err.response.data.message;
-        setError(error);
-      });
+class Login extends React.Component {
+  state = {
+    redirect: false,
+    token: localStorage.getItem("token"),
+    error: "",
   };
 
-  return (
-    <Layout style={{ background: "#efefef" }}>
-      {redirect && <Redirect to="/dashboard" />}
-      <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
-        <Col>
-          <Card style={{ width: "50vh" }}>
-            <h1 style={{ textAlign: "center", fontSize: 35 }}>Sign In</h1>
-            <Divider></Divider>
-            <Form onFinish={onFinish}>
-              <Form.Item
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username or email!",
-                  },
-                ]}
-              >
-                <Input placeholder="Username or Email" />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[
-                  { required: true, message: "Please input your password!" },
-                ]}
-              >
-                <Input.Password placeholder="Password" />
-              </Form.Item>
-              <Form.Item>
-                <Button block type="primary" htmlType="submit">
-                  Sign In
-                </Button>
-              </Form.Item>
+  onFinish = (data) => {
+    AuthService.login(data).then((res) => {
+      if (res.status === 200) {
+        const token = res.data.token;
+        AuthService.checkUser(token).then((result) => {
+          if (result === "Unauthorized") {
+            this.setState({ error: result });
+          } else {
+            localStorage.setItem("token", token);
+            this.setState({ redirect: true, token: token });
+          }
+        });
+      } else {
+        const error = res.data.message;
+        this.setState({ error: error });
+      }
+    });
+  };
 
-              <Form.Item style={{ textAlign: "right" }}>
-                <a href="/forgotpassword">Forgot password</a>
-              </Form.Item>
+  render() {
+    if (this.state.token && localStorage.getItem("token")) {
+      return <Redirect to="/dashboard" />;
+    }
+    return (
+      <Layout style={{ background: "#efefef" }}>
+        <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
+          <Col>
+            <Card style={{ width: "50vh" }}>
+              <h1 style={{ textAlign: "center", fontSize: 35 }}>Sign In</h1>
+              <Divider></Divider>
+              <Form onFinish={this.onFinish}>
+                <Form.Item
+                  name="username"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username or email!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Username or Email" />
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  rules={[
+                    { required: true, message: "Please input your password!" },
+                  ]}
+                >
+                  <Input.Password placeholder="Password" />
+                </Form.Item>
+                <Form.Item>
+                  <Button block type="primary" htmlType="submit">
+                    Sign In
+                  </Button>
+                </Form.Item>
 
-              <Form.Item>
-                {error && (
-                  <Alert
-                    style={{ textAlign: "center" }}
-                    message={error}
-                    type="error"
-                    banner
-                  />
-                )}
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
-  );
-};
+                <Form.Item style={{ textAlign: "right" }}>
+                  <a href="/forgotpassword">Forgot password</a>
+                </Form.Item>
+
+                <Form.Item>
+                  {this.state.error && (
+                    <Alert
+                      style={{ textAlign: "center" }}
+                      message={this.state.error}
+                      type="error"
+                      banner
+                    />
+                  )}
+                </Form.Item>
+              </Form>
+            </Card>
+          </Col>
+        </Row>
+      </Layout>
+    );
+  }
+}
 
 export default Login;
