@@ -1,14 +1,22 @@
-import { Breadcrumb, Layout } from "antd";
 import React from "react";
-import HeaderNav from "./HeaderNav";
-import Navigation from "./Navigation";
+import { Breadcrumb, Layout } from "antd";
+import HeaderNav from "../../HeaderNav";
+import Navigation from "../../Navigation";
 import { Content, Footer } from "antd/lib/layout/layout";
-import BarberContent from "./menu/Barbers/Barber.Content";
+import AdminService from "../../../services/admin.service";
 
-class Barber extends React.Component {
+class BarberDetails extends React.Component {
   state = {
     current: "Barber",
   };
+  componentDidMount() {
+    const id = this.props.match.params.id;
+    fetch(
+      AdminService.getBarberById(id).then((res) => {
+        console.log(res);
+      })
+    );
+  }
   render() {
     return (
       <Layout>
@@ -19,11 +27,12 @@ class Barber extends React.Component {
             <Content style={{ padding: "0 50px" }}>
               <Breadcrumb style={{ margin: "16px 0" }}>
                 <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
-                <Breadcrumb.Item>{this.state.current}</Breadcrumb.Item>
+                <Breadcrumb.Item href="/barber">{this.state.current}</Breadcrumb.Item>
+                <Breadcrumb.Item>Barber Details</Breadcrumb.Item>
               </Breadcrumb>
-              <div style={{ background: "#fff", padding: 24, minHeight: 580 }}>
-                <BarberContent />
-              </div>
+              <div
+                style={{ background: "#fff", padding: 24, minHeight: 580 }}
+              ></div>
             </Content>
             <Footer style={{ textAlign: "center" }}>
               Ant Design Layout example create by muhfauqhi
@@ -34,4 +43,5 @@ class Barber extends React.Component {
     );
   }
 }
-export default Barber;
+
+export default BarberDetails;

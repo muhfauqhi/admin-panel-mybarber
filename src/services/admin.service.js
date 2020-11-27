@@ -15,4 +15,8 @@ const getServiceAll = () => {
   return axios.get(API_URL + "service", { headers: authHeader() });
 };
 
-export default { getUserAll, getBarberAll, getServiceAll };
+const getBarberById = (id) => {
+  return axios.get(API_URL + "barber/" + id, { headers: authHeader() });
+};
+
+export default { getUserAll, getBarberAll, getServiceAll, getBarberById };

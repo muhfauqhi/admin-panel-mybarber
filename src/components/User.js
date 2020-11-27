@@ -1,15 +1,13 @@
 import { Breadcrumb, Layout } from "antd";
 import React from "react";
-import UserContent from "./menu/User.Content";
-import ServiceContent from "./menu/Service.Content";
-import BarberContent from "./menu/Barbers/Barber.Content";
-import Navigation from "./Navigation";
 import HeaderNav from "./HeaderNav";
+import Navigation from "./Navigation";
 import { Content, Footer } from "antd/lib/layout/layout";
+import UserContent from "./menu/User.Content";
 
-class Dashboard extends React.Component {
+class User extends React.Component {
   state = {
-    current: "Dashboard",
+    current: "User",
   };
 
   render() {
@@ -25,8 +23,6 @@ class Dashboard extends React.Component {
               </Breadcrumb>
               <div style={{ background: "#fff", padding: 24, minHeight: 580 }}>
                 <UserContent />
-                <BarberContent />
-                <ServiceContent />
               </div>
             </Content>
             <Footer style={{ textAlign: "center" }}>
@@ -39,4 +35,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default User;

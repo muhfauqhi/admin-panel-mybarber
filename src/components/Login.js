@@ -1,5 +1,14 @@
-import { Form, Input, Button, Col, Row, Card, Divider, Alert } from "antd";
-import { Layout } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Col,
+  Row,
+  Card,
+  Divider,
+  Alert,
+  Layout,
+} from "antd";
 import React from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../services/auth.service";

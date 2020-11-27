@@ -1,12 +1,13 @@
 import React from "react";
 import { Table, Tag } from "antd";
-import AdminService from "../../services/admin.service";
+import AdminService from "../../../services/admin.service";
 
 const columns = [
   {
     title: "Name",
     dataIndex: "name",
     key: "name",
+    render: (text, record) => <a href={"barber/" + record.id}>{text}</a>,
   },
   {
     title: "Rate",
@@ -70,11 +71,12 @@ class BarberContent extends React.Component {
 
   componentDidMount() {
     fetch(
-      AdminService.getBarberAll().then((response) => {
-        const barber = response.data.data;
+      AdminService.getBarberAll().then((res) => {
+        const barber = res.data.data;
         let result = [];
         barber.forEach((data) => {
           let temp = {
+            id: data._id,
             name: data.name,
             rate: data.rate,
             description: data.description,
@@ -103,6 +105,7 @@ class BarberContent extends React.Component {
   render() {
     return (
       <Table
+        title={() => <a href="/barber">Barber</a>}
         loading={this.state.loading}
         dataSource={this.state.data}
         columns={columns}

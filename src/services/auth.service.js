@@ -17,11 +17,17 @@ const logout = () => {
   localStorage.removeItem("token");
 };
 
-const forgotPassword = (email) => {
-  return axios.put(API_URL + "forgotpassword", { email }).then((response) => {
-    const data = response.data;
-    return data;
-  });
+const forgotPassword = (data) => {
+  return axios
+    .put(API_URL + "forgotpassword", data)
+    .then((response) => {
+      const data = response.data;
+      return data;
+    })
+    .catch((error) => {
+      const data = error.response.data;
+      return data;
+    });
 };
 
 const resetPassword = (password, token) => {
@@ -32,6 +38,10 @@ const resetPassword = (password, token) => {
     })
     .then((response) => {
       const data = response.data;
+      return data;
+    })
+    .catch((error) => {
+      const data = error.response.data;
       return data;
     });
 };
