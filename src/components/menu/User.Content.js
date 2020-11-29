@@ -3,6 +3,11 @@ import { Table } from "antd";
 import AdminService from "../../services/admin.service";
 import moment from "moment";
 
+const filterRoles = [
+  { text: "Admin", value: "Admin" },
+  { text: "Customer", value: "Customer" },
+];
+
 const columns = [
   {
     title: "Username",
@@ -23,6 +28,10 @@ const columns = [
     title: "Role",
     dataIndex: "role",
     key: "role",
+    filters: filterRoles,
+    onFilter: (value, record) => {
+      return record.role.includes(value);
+    },
   },
   {
     title: "Phone Number",
@@ -40,6 +49,7 @@ class UserContent extends React.Component {
   state = {
     data: [],
     loading: true,
+    filteredInfo: null,
   };
 
   componentDidMount() {
@@ -67,12 +77,19 @@ class UserContent extends React.Component {
     );
   }
 
+  handleTableChange = (pagination, filters, sorter) => {
+    this.setState({
+      filteredInfo: filters,
+    });
+  };
+
   render() {
     return (
       <Table
         loading={this.state.loading}
         dataSource={this.state.data}
         columns={columns}
+        onChange={this.handleTableChange}
       ></Table>
     );
   }

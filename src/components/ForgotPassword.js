@@ -8,7 +8,6 @@ import {
   Divider,
   Alert,
   Layout,
-  message,
 } from "antd";
 import React from "react";
 import AuthService from "../services/auth.service";

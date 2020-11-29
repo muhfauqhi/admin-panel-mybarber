@@ -2,6 +2,28 @@ import React from "react";
 import { Table, Tag } from "antd";
 import AdminService from "../../../services/admin.service";
 
+const weekDays = {
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday",
+  7: "Sunday",
+};
+
+const filterServices = [];
+
+const filterWorkingDays = [
+  { text: weekDays[1], value: weekDays[1] },
+  { text: weekDays[2], value: weekDays[2] },
+  { text: weekDays[3], value: weekDays[3] },
+  { text: weekDays[4], value: weekDays[4] },
+  { text: weekDays[5], value: weekDays[5] },
+  { text: weekDays[6], value: weekDays[6] },
+  { text: weekDays[7], value: weekDays[7] },
+];
+
 const columns = [
   {
     title: "Name",
@@ -23,6 +45,10 @@ const columns = [
     title: "Working Days",
     dataIndex: "workingDays",
     key: "workingDays",
+    filters: filterWorkingDays,
+    onFilter: (value, record) => {
+      return record.workingDays.includes(value);
+    },
     render: (workingDays) => (
       <>
         {workingDays.map((workingDays) => {
@@ -39,6 +65,10 @@ const columns = [
     title: "Service",
     key: "service",
     dataIndex: "service",
+    filters: filterServices,
+    onFilter: (value, record) => {
+      return record.service.includes(value);
+    },
     render: (service) => (
       <>
         {service.map((service) => {
@@ -53,20 +83,11 @@ const columns = [
   },
 ];
 
-const weekDays = {
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday",
-  7: "Sunday",
-};
-
 class BarberContent extends React.Component {
   state = {
     data: [],
     loading: true,
+    filteredInfo: null,
   };
 
   componentDidMount() {
@@ -97,10 +118,38 @@ class BarberContent extends React.Component {
           result.push(temp);
         });
         this.setState({ data: result, loading: false });
+        this.setFilterService();
       }),
       (error) => {}
     );
   }
+
+  handleTableChange = (pagination, filters, sorter) => {
+    this.setState({
+      filteredInfo: filters,
+    });
+  };
+
+  setFilterService = () => {
+    let tempService = [];
+    this.state.data.forEach((e) => {
+      e.service.forEach((service) => {
+        if (tempService.length < 1) {
+          tempService.push(service);
+        }
+        if (!tempService.includes(service)) {
+          tempService.push(service);
+        }
+      });
+    });
+    tempService.forEach((e) => {
+      let temp = {
+        text: e,
+        value: e,
+      };
+      filterServices.push(temp);
+    });
+  };
 
   render() {
     return (
@@ -109,6 +158,7 @@ class BarberContent extends React.Component {
         loading={this.state.loading}
         dataSource={this.state.data}
         columns={columns}
+        onChange={this.handleTableChange}
       ></Table>
     );
   }
