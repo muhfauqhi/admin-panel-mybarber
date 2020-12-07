@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_URL = "http://localhost:3000/api/";
+const API_URL = 'http://localhost:3000/api/';
 
 const login = (credentials) => {
   return axios
-    .post(API_URL + "login", credentials)
+    .post(API_URL + 'login', credentials)
     .then((result) => {
       return result;
     })
@@ -14,12 +14,12 @@ const login = (credentials) => {
 };
 
 const logout = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem('token');
 };
 
 const forgotPassword = (data) => {
   return axios
-    .put(API_URL + "forgotpassword", data)
+    .put(API_URL + 'forgotpassword', data)
     .then((response) => {
       const data = response.data;
       return data;
@@ -32,7 +32,7 @@ const forgotPassword = (data) => {
 
 const resetPassword = (password, token) => {
   return axios
-    .put(API_URL + "resetpassword", {
+    .put(API_URL + 'resetpassword', {
       password,
       token,
     })
@@ -48,15 +48,15 @@ const resetPassword = (password, token) => {
 
 const checkUser = (token) => {
   return axios
-    .get(API_URL + "dashboard", {
+    .get(API_URL + 'dashboard', {
       headers: {
         Authorization: token,
       },
     })
     .then((response) => {
       const data = response.data.data;
-      if (data.role !== "Admin") {
-        return "Unauthorized";
+      if (data.role !== 'Admin') {
+        return 'Unauthorized';
       } else {
         return data;
       }

@@ -1,17 +1,17 @@
-import AdminService from "../../services/admin.service";
-import React from "react";
-import { Table } from "antd";
+import AdminService from '../../services/admin.service';
+import React from 'react';
+import { Table } from 'antd';
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
   },
   {
-    title: "Duration",
-    dataIndex: "duration",
-    key: "duration",
+    title: 'Duration',
+    dataIndex: 'duration',
+    key: 'duration',
   },
 ];
 
@@ -29,7 +29,7 @@ class ServiceContent extends React.Component {
         service.forEach((data) => {
           let temp = {
             name: data.name,
-            duration: data.duration / 60 + " hour(s)",
+            duration: data.duration / 60 + ' hour(s)',
           };
           result.push(temp);
         });
@@ -38,7 +38,7 @@ class ServiceContent extends React.Component {
           loading: false,
         });
       }),
-      (error) => {}
+      (error) => { }
     );
   }
 

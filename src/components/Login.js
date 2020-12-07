@@ -8,16 +8,16 @@ import {
   Divider,
   Alert,
   Layout,
-} from "antd";
-import React from "react";
-import { Redirect } from "react-router-dom";
-import AuthService from "../services/auth.service";
+} from 'antd';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import AuthService from '../services/auth.service';
 
 class Login extends React.Component {
   state = {
     redirect: false,
-    token: localStorage.getItem("token"),
-    error: "",
+    token: localStorage.getItem('token'),
+    error: '',
   };
 
   onFinish = (data) => {
@@ -25,10 +25,10 @@ class Login extends React.Component {
       if (res.status === 200) {
         const token = res.data.token;
         AuthService.checkUser(token).then((result) => {
-          if (result === "Unauthorized") {
+          if (result === 'Unauthorized') {
             this.setState({ error: result });
           } else {
-            localStorage.setItem("token", token);
+            localStorage.setItem('token', token);
             this.setState({ redirect: true, token: token });
           }
         });
@@ -40,52 +40,52 @@ class Login extends React.Component {
   };
 
   render() {
-    if (this.state.token && localStorage.getItem("token")) {
-      return <Redirect to="/dashboard" />;
+    if (this.state.token && localStorage.getItem('token')) {
+      return <Redirect to='/dashboard' />;
     }
     return (
-      <Layout style={{ background: "#efefef" }}>
-        <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
+      <Layout style={{ background: '#efefef' }}>
+        <Row justify='center' align='middle' style={{ minHeight: '100vh' }}>
           <Col>
-            <Card style={{ width: "50vh" }}>
-              <h1 style={{ textAlign: "center", fontSize: 35 }}>Sign In</h1>
+            <Card style={{ width: '50vh' }}>
+              <h1 style={{ textAlign: 'center', fontSize: 35 }}>Sign In</h1>
               <Divider></Divider>
               <Form onFinish={this.onFinish}>
                 <Form.Item
-                  name="username"
+                  name='username'
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username or email!",
+                      message: 'Please input your username or email!',
                     },
                   ]}
                 >
-                  <Input placeholder="Username or Email" />
+                  <Input placeholder='Username or Email' />
                 </Form.Item>
                 <Form.Item
-                  name="password"
+                  name='password'
                   rules={[
-                    { required: true, message: "Please input your password!" },
+                    { required: true, message: 'Please input your password!' },
                   ]}
                 >
-                  <Input.Password placeholder="Password" />
+                  <Input.Password placeholder='Password' />
                 </Form.Item>
                 <Form.Item>
-                  <Button block type="primary" htmlType="submit">
+                  <Button block type='primary' htmlType='submit'>
                     Sign In
                   </Button>
                 </Form.Item>
 
-                <Form.Item style={{ textAlign: "right" }}>
-                  <a href="/forgotpassword">Forgot password</a>
+                <Form.Item style={{ textAlign: 'right' }}>
+                  <a href='/forgotpassword'>Forgot password</a>
                 </Form.Item>
 
                 <Form.Item>
                   {this.state.error && (
                     <Alert
-                      style={{ textAlign: "center" }}
+                      style={{ textAlign: 'center' }}
                       message={this.state.error}
-                      type="error"
+                      type='error'
                       banner
                     />
                   )}

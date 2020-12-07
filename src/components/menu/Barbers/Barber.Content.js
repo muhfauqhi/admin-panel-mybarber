@@ -1,18 +1,18 @@
-import React from "react";
-import { Table, Tag } from "antd";
-import AdminService from "../../../services/admin.service";
+import React from 'react';
+import { Table, Tag } from 'antd';
+import AdminService from '../../../services/admin.service';
 
 const weekDays = {
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday",
-  7: "Sunday",
+  1: 'Monday',
+  2: 'Tuesday',
+  3: 'Wednesday',
+  4: 'Thursday',
+  5: 'Friday',
+  6: 'Saturday',
+  7: 'Sunday',
 };
 
-const filterServices = [];
+let filterServices = [];
 
 const filterWorkingDays = [
   { text: weekDays[1], value: weekDays[1] },
@@ -26,25 +26,25 @@ const filterWorkingDays = [
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (text, record) => <a href={"barber/" + record.id}>{text}</a>,
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    render: (text, record) => <a href={'barber/' + record.id}>{text}</a>,
   },
   {
-    title: "Rate",
-    dataIndex: "rate",
-    key: "rate",
+    title: 'Rate',
+    dataIndex: 'rate',
+    key: 'rate',
   },
   {
-    title: "Description",
-    dataIndex: "description",
-    key: "description",
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
   },
   {
-    title: "Working Days",
-    dataIndex: "workingDays",
-    key: "workingDays",
+    title: 'Working Days',
+    dataIndex: 'workingDays',
+    key: 'workingDays',
     filters: filterWorkingDays,
     onFilter: (value, record) => {
       return record.workingDays.includes(value);
@@ -53,7 +53,7 @@ const columns = [
       <>
         {workingDays.map((workingDays) => {
           return (
-            <Tag color="blue" key={workingDays}>
+            <Tag color='blue' key={workingDays}>
               {workingDays}
             </Tag>
           );
@@ -62,9 +62,9 @@ const columns = [
     ),
   },
   {
-    title: "Service",
-    key: "service",
-    dataIndex: "service",
+    title: 'Service',
+    key: 'service',
+    dataIndex: 'service',
     filters: filterServices,
     onFilter: (value, record) => {
       return record.service.includes(value);
@@ -73,7 +73,7 @@ const columns = [
       <>
         {service.map((service) => {
           return (
-            <Tag color="green" key={service}>
+            <Tag color='green' key={service}>
               {service.toUpperCase()}
             </Tag>
           );
@@ -118,9 +118,10 @@ class BarberContent extends React.Component {
           result.push(temp);
         });
         this.setState({ data: result, loading: false });
-        this.setFilterService();
+        if (filterServices.length < 1) this.setFilterService();
+
       }),
-      (error) => {}
+      (error) => { }
     );
   }
 
@@ -154,7 +155,7 @@ class BarberContent extends React.Component {
   render() {
     return (
       <Table
-        title={() => <a href="/barber">Barber</a>}
+        title={() => <a href='/barber'>Barber</a>}
         loading={this.state.loading}
         dataSource={this.state.data}
         columns={columns}
