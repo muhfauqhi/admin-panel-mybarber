@@ -3,7 +3,7 @@ import React from 'react';
 import HeaderNav from './HeaderNav';
 import Navigation from './Navigation';
 import { Content, Footer } from 'antd/lib/layout/layout';
-import ServiceContent from './menu/Service.Content';
+import ServiceContent from './menu/Services/Service.Content';
 import { PlusOutlined } from '@ant-design/icons';
 
 class Service extends React.Component {

@@ -1,6 +1,6 @@
-import AdminService from '../../services/admin.service';
+import AdminService from '../../../services/admin.service';
 import React from 'react';
-import { Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 
 const columns = [
   {
@@ -13,7 +13,21 @@ const columns = [
     dataIndex: 'duration',
     key: 'duration',
   },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (record) => (
+      <Space size='middle' >
+        <Button href='/service' onClick={() => deleteService(record.id)} type='danger'>Delete</Button>
+      </Space >
+    )
+  }
 ];
+
+function deleteService(id) {
+  AdminService.deleteService(id).then((res) => {
+  });
+}
 
 class ServiceContent extends React.Component {
   state = {
@@ -28,6 +42,7 @@ class ServiceContent extends React.Component {
         let result = [];
         service.forEach((data) => {
           let temp = {
+            id: data._id,
             name: data.name,
             duration: data.duration / 60 + ' hour(s)',
           };

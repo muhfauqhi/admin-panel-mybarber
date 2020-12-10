@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import AdminService from '../../services/admin.service';
+import AdminService from '../../../services/admin.service';
 import moment from 'moment';
 
 const filterRoles = [

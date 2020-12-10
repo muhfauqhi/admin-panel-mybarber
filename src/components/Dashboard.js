@@ -1,7 +1,7 @@
 import { Breadcrumb, Layout } from 'antd';
 import React from 'react';
-import UserContent from './menu/User.Content';
-import ServiceContent from './menu/Service.Content';
+import UserContent from './menu/Users/User.Content';
+import ServiceContent from './menu/Services/Service.Content';
 import BarberContent from './menu/Barbers/Barber.Content';
 import Navigation from './Navigation';
 import HeaderNav from './HeaderNav';

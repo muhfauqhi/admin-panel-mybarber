@@ -3,7 +3,7 @@ import React from 'react';
 import HeaderNav from './HeaderNav';
 import Navigation from './Navigation';
 import { Content, Footer } from 'antd/lib/layout/layout';
-import UserContent from './menu/User.Content';
+import UserContent from './menu/Users/User.Content';
 import { PlusOutlined } from '@ant-design/icons';
 
 class User extends React.Component {

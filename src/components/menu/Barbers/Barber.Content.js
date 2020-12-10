@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Tag } from 'antd';
+import { Button, Space, Table, Tag } from 'antd';
 import AdminService from '../../../services/admin.service';
 
 const weekDays = {
@@ -81,7 +81,22 @@ const columns = [
       </>
     ),
   },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (record) => (
+      <Space size='middle' >
+        <Button href='/barber' onClick={() => deleteBarber(record.id)} type='danger'>Delete</Button>
+      </Space >
+    )
+  }
 ];
+
+function deleteBarber(id) {
+  AdminService.deleteBarber(id).then((res) => {
+    console.log(res);
+  });
+}
 
 class BarberContent extends React.Component {
   state = {
