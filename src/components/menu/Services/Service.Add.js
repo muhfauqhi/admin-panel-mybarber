@@ -42,11 +42,11 @@ class UserAdd extends React.Component {
     }
 
     onFinish = (data) => {
-        const postService = {
+        const temp = {
             name: data.name,
             duration: data.duration,
         }
-        AdminService.postService(postService).then((res) => {
+        AdminService.createService(temp).then((res) => {
             const result = res.data.data;
             if (!data.barber) {
                 this.setState({ redirect: true });
@@ -79,30 +79,30 @@ class UserAdd extends React.Component {
                                 <Breadcrumb.Item>{current}</Breadcrumb.Item>
                             </Breadcrumb>
                             <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
-                                <Form onFinish={this.onFinish} layout="vertical" hideRequiredMark>
+                                <Form onFinish={this.onFinish} layout='vertical' hideRequiredMark>
                                     <Row gutter={16}>
                                         <Col span={12}>
                                             <Form.Item
-                                                name="name" label="Service Name"
+                                                name='name' label='Service Name'
                                                 rules={[{ required: true, message: 'Please enter service name' }]}>
-                                                <Input placeholder="Please enter service name" />
+                                                <Input placeholder='Please enter service name' />
                                             </Form.Item>
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item
-                                                name="duration"
-                                                label="Service Duration"
+                                                name='duration'
+                                                label='Service Duration'
                                                 rules={[{ required: true, message: 'Please enter duration' }]}>
-                                                <InputNumber style={{ width: '100%' }} placeholder="Please enter duration" />
+                                                <InputNumber style={{ width: '100%' }} placeholder='Please enter duration' />
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row gutter={16}>
                                         <Col span={24}>
                                             <Form.Item
-                                                name="barber"
-                                                label="Barber List">
-                                                <Select tagRender={tagRender} mode='multiple' placeholder="Please select barber">
+                                                name='barber'
+                                                label='Barber List'>
+                                                <Select tagRender={tagRender} mode='multiple' placeholder='Please select barber'>
                                                     {barberSelect.map(d => (
                                                         <Option key={d.id}>{d.value}</Option>
                                                     ))}
@@ -113,9 +113,9 @@ class UserAdd extends React.Component {
                                     <Row gutter={16}>
                                         <Col span={24}>
                                             <Form.Item
-                                                name="description"
-                                                label="Description">
-                                                <Input.TextArea rows={4} placeholder="Please enter description" />
+                                                name='description'
+                                                label='Description'>
+                                                <Input.TextArea rows={4} placeholder='Please enter description' />
                                             </Form.Item>
                                         </Col>
                                     </Row>

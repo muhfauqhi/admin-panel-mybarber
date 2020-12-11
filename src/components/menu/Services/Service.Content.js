@@ -18,6 +18,7 @@ const columns = [
     key: 'action',
     render: (record) => (
       <Space size='middle' >
+        <Button href={'/service/edit/' + record.id} type='primary'>Edit</Button>
         <Button href='/service' onClick={() => deleteService(record.id)} type='danger'>Delete</Button>
       </Space >
     )

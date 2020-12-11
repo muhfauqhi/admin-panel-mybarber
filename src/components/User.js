@@ -26,7 +26,7 @@ class User extends React.Component {
               </Breadcrumb>
               <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
                 <UserContent />
-                <Button href='/adduser'
+                <Button href='/user/add'
                   // style={{ float: 'right' }} 
                   type='primary'>
                   <PlusOutlined />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import AdminService from '../../../services/admin.service';
 import moment from 'moment';
 
@@ -43,7 +43,23 @@ const columns = [
     dataIndex: 'createdAt',
     key: 'createdAt',
   },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (record) => (
+      <Space size='middle' >
+        <Button href={'/user/edit/' + record.id} type='primary'>Edit</Button>
+        <Button href='/user' onClick={() => deleteUser(record.id)} type='danger'>Delete</Button>
+      </Space >
+    )
+  }
 ];
+
+function deleteUser(id) {
+  AdminService.deleteUser(id).then((res) => {
+    console.log(res);
+  });
+}
 
 class UserContent extends React.Component {
   state = {
@@ -59,6 +75,7 @@ class UserContent extends React.Component {
         let result = [];
         user.forEach((data) => {
           let temp = {
+            id: data._id,
             username: data.username,
             fullname: data.fullname,
             email: data.email,

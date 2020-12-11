@@ -86,6 +86,7 @@ const columns = [
     key: 'action',
     render: (record) => (
       <Space size='middle' >
+        <Button href={'/barber/edit/' + record.id} type='primary'>Edit</Button>
         <Button href='/barber' onClick={() => deleteBarber(record.id)} type='danger'>Delete</Button>
       </Space >
     )
@@ -170,7 +171,6 @@ class BarberContent extends React.Component {
   render() {
     return (
       <Table
-        title={() => <a href='/barber'>Barber</a>}
         loading={this.state.loading}
         dataSource={this.state.data}
         columns={columns}

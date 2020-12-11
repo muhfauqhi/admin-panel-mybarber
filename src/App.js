@@ -12,6 +12,7 @@ import BarberDetails from './components/menu/Barbers/Barber.Details';
 import BarberAdd from './components/menu/Barbers/Barber.Add';
 import UserAdd from './components/menu/Users/User.Add';
 import ServiceAdd from './components/menu/Services/Service.Add';
+import BarberEdit from './components/menu/Barbers/Barber.Edit';
 
 function App() {
   return (
@@ -21,13 +22,14 @@ function App() {
         <Route exact path='/login' component={Login}></Route>
         <Route exact path='/dashboard' component={Dashboard}></Route>
         <Route exact path='/barber' component={Barber}></Route>
+        <Route exact path='/barber/edit/:id' component={BarberEdit}></Route>
+        <Route exact path='/barber/add' component={BarberAdd}></Route>
         <Route exact path='/barber/:id' component={BarberDetails}></Route>
         <Route exact path='/user' component={User}></Route>
         <Route exact path='/service' component={Service}></Route>
         <Route exact path='/forgotpassword' component={ForgotPassword}></Route>
-        <Route exact path='/addbarber' component={BarberAdd}></Route>
-        <Route exact path='/adduser' component={UserAdd}></Route>
-        <Route exact path='/addservice' component={ServiceAdd}></Route>
+        <Route exact path='/user/add' component={UserAdd}></Route>
+        <Route exact path='/service/add' component={ServiceAdd}></Route>
         <Route
           exact
           path='/resetpassword/:token'

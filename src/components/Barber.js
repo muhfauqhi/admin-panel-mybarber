@@ -30,7 +30,7 @@ class Barber extends React.Component {
               </Breadcrumb>
               <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
                 <BarberContent />
-                <Button href='/addbarber'
+                <Button href='/barber/add'
                   // style={{ float: 'right' }} 
                   type='primary'>
                   <PlusOutlined />

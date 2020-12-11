@@ -27,7 +27,7 @@ const deleteService = (id) => {
   });
 }
 
-const postService = (data) => {
+const createService = (data) => {
   return axios.post(API_URL + 'service', data, { headers: authHeader() }).then((res) => {
     return res;
   }).catch((error) => {
@@ -45,10 +45,26 @@ const putService = (id, serviceId) => {
 
 const deleteBarber = (id) => {
   return axios.delete(API_URL + 'barber/' + id, { headers: authHeader() }).then((res) => {
-    return res
+    return res;
   }).catch((error) => {
     return error;
   });
 }
 
-export default { getUserAll, getBarberAll, getServiceAll, getBarberById, postService, deleteService, putService, deleteBarber };
+const createUser = (data) => {
+  return axios.post(API_URL + 'adduser', data, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  });
+}
+
+const deleteUser = (id) => {
+  return axios.delete(API_URL + 'user/' + id, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  });
+}
+
+export default { getUserAll, getBarberAll, getServiceAll, getBarberById, createService, deleteService, putService, deleteBarber, createUser, deleteUser };
