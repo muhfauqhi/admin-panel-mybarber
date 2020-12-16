@@ -92,7 +92,7 @@ class UserAdd extends React.Component {
                             <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
                                 <Form
                                     {...formItemLayout}
-                                    name="add user"
+                                    name="Add user"
                                     onFinish={this.onFinish}
                                     initialValues={{
                                         role: ['Admin'],
@@ -195,7 +195,7 @@ class UserAdd extends React.Component {
 
                                     <Form.Item {...tailFormItemLayout}>
                                         <Button type="primary" htmlType="submit">
-                                            Submit
+                                            Add User
                                         </Button>
                                     </Form.Item>
                                 </Form>

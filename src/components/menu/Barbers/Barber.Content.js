@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Space, Table, Tag } from 'antd';
 import AdminService from '../../../services/admin.service';
+import { useHistory } from 'react-router-dom';
 
 const weekDays = {
   1: 'Monday',
@@ -86,16 +87,49 @@ const columns = [
     key: 'action',
     render: (record) => (
       <Space size='middle' >
-        <Button href={'/barber/edit/' + record.id} type='primary'>Edit</Button>
-        <Button href='/barber' onClick={() => deleteBarber(record.id)} type='danger'>Delete</Button>
+        <EditBarber record={record} />
+        <Button
+          href='/barber'
+          onClick={() => deleteBarber(record.id)}
+          type='danger'
+        >
+          Delete
+          </Button>
       </Space >
     )
   }
 ];
 
+function EditBarber(props) {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push({
+      pathname: '/barber/edit/' + props.record.id,
+      state: props.record
+    });
+  }
+
+  return (
+    <Button
+      onClick={handleClick}
+      type='primary'
+    >
+      Edit
+    </Button>
+  )
+  // <Link
+  //   href={'/barber/edit/' + record.id}
+  //   to='/'
+  // to={{
+  //   pathname: '/barber/edit/' + record.id,
+  //   state: { data: record }
+  // }}
+  // />
+}
+
 function deleteBarber(id) {
   AdminService.deleteBarber(id).then((res) => {
-    console.log(res);
   });
 }
 
@@ -105,6 +139,7 @@ class BarberContent extends React.Component {
     loading: true,
     filteredInfo: null,
   };
+
 
   componentDidMount() {
     fetch(
@@ -169,10 +204,11 @@ class BarberContent extends React.Component {
   };
 
   render() {
+    let { data, loading, } = this.state;
     return (
       <Table
-        loading={this.state.loading}
-        dataSource={this.state.data}
+        loading={loading}
+        dataSource={data}
         columns={columns}
         onChange={this.handleTableChange}
       ></Table>

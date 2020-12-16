@@ -67,4 +67,24 @@ const deleteUser = (id) => {
   });
 }
 
-export default { getUserAll, getBarberAll, getServiceAll, getBarberById, createService, deleteService, putService, deleteBarber, createUser, deleteUser };
+const addBarber = (data) => {
+  return axios.post(API_URL + 'barber', data, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  });
+}
+
+export default {
+  getUserAll,
+  getBarberAll,
+  getServiceAll,
+  getBarberById,
+  createService,
+  deleteService,
+  putService,
+  deleteBarber,
+  createUser,
+  deleteUser,
+  addBarber,
+};

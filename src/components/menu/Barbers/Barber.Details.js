@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, Layout, Descriptions, Image, Row, Col, Tag } from 'antd';
+import { Breadcrumb, Layout, Descriptions, Image, Row, Col } from 'antd';
 import HeaderNav from '../../HeaderNav';
 import Navigation from '../../Navigation';
 import { Content, Footer } from 'antd/lib/layout/layout';
