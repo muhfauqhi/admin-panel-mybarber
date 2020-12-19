@@ -1,5 +1,5 @@
 import { Breadcrumb, Layout, Form, Input, Select, Button, Tooltip, Cascader } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import HeaderNav from '../../HeaderNav';
 import Navigation from '../../Navigation';
 import { Content, Footer } from 'antd/lib/layout/layout';
@@ -46,8 +46,8 @@ const tailFormItemLayout = {
             offset: 0,
         },
         sm: {
-            span: 16,
-            offset: 8,
+            span: 24,
+            offset: 4,
         },
     },
 };

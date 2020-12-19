@@ -6,6 +6,7 @@ import ForgotPassword from './components/ForgotPassword';
 import 'antd/dist/antd.css';
 import ResetPassword from './components/ResetPassword';
 import Barber from './components/Barber';
+import Booking from './components/Booking';
 import User from './components/User';
 import Service from './components/Service';
 import BarberDetails from './components/menu/Barbers/Barber.Details';
@@ -21,6 +22,7 @@ function App() {
         <Route exact path='/' component={Login}></Route>
         <Route exact path='/login' component={Login}></Route>
         <Route exact path='/dashboard' component={Dashboard}></Route>
+        <Route exact path='/booking' component={Booking}></Route>
         <Route exact path='/barber' component={Barber}></Route>
         <Route exact path='/barber/edit/:id' component={BarberEdit}></Route>
         <Route exact path='/barber/add' component={BarberAdd}></Route>

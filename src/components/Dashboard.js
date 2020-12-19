@@ -6,6 +6,7 @@ import BarberContent from './menu/Barbers/Barber.Content';
 import Navigation from './Navigation';
 import HeaderNav from './HeaderNav';
 import { Content, Footer } from 'antd/lib/layout/layout';
+import BookingContent from './menu/Bookings/Booking.Content';
 
 class Dashboard extends React.Component {
   state = {
@@ -24,9 +25,10 @@ class Dashboard extends React.Component {
                 <Breadcrumb.Item>{this.state.current}</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
-                <UserContent />
+                <BookingContent />
                 <BarberContent />
                 <ServiceContent />
+                <UserContent />
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

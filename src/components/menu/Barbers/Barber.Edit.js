@@ -1,9 +1,10 @@
-import { Breadcrumb, Layout, Form, Input, InputNumber, Tag, Button, Select } from 'antd';
+import { Breadcrumb, Layout, Form, Input, InputNumber, Tag, Button, Select, Upload } from 'antd';
 import React from 'react';
 import HeaderNav from '../../HeaderNav';
 import Navigation from '../../Navigation';
 import { Content, Footer } from 'antd/lib/layout/layout';
 import AdminService from '../../../services/admin.service';
+import { UploadOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -79,7 +80,7 @@ const tailFormItemLayout = {
         },
         sm: {
             span: 16,
-            offset: 8,
+            offset: 4,
         },
     },
 };
@@ -110,14 +111,30 @@ class BarberEdit extends React.Component {
         );
     }
 
+    fileList = () => {
+        const imageName = this.props.image.substring(19, this.props.image.length);
+        const urlImage = 'http://localhost:3000/' + imageName;
+        if (imageName.length < 1) {
+            return [];
+        } else {
+            return {
+                uid: '1',
+                name: imageName,
+                status: 'done',
+                url: urlImage,
+            };
+        }
+    }
+
     onFinish = (values) => {
         // AdminService.updat
     }
 
     render() {
         let { current, serviceList } = this.state;
-        console.log(this.props.location.state);
         const props = this.props.location.state;
+        const imageName = props.image.substring(19, props.image.length);
+        const urlImage = 'http://localhost:3000/' + imageName;
         return (
             <Layout>
                 <HeaderNav />
@@ -232,6 +249,29 @@ class BarberEdit extends React.Component {
                                             ))}
                                         </Select>
                                     </Form.Item>
+                                    <Form.Item {...tailFormItemLayout}>
+                                        <Upload
+                                            multiple={false}
+                                            listType='picture'
+                                            defaultFileList={[
+                                                {
+                                                    uid: '1',
+                                                    name: imageName,
+                                                    status: 'done',
+                                                    url: urlImage,
+                                                    fileName: imageName,
+                                                },
+                                            ]}
+                                            name='image'
+                                            method='post'
+                                            action={'http://localhost:3000/api/barber/upload/' + props.id}
+                                            headers={{
+                                                Authorization: localStorage.getItem('token')
+                                            }}
+                                        >
+                                            <Button icon={<UploadOutlined />}>Upload Barber Image</Button>
+                                        </Upload>
+                                    </Form.Item>
                                     <Form.Item
                                         {...tailFormItemLayout}
                                     >
@@ -247,7 +287,7 @@ class BarberEdit extends React.Component {
                         </Footer>
                     </Layout>
                 </Layout>
-            </Layout>
+            </Layout >
         );
     }
 }

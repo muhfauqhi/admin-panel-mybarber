@@ -118,14 +118,6 @@ function EditBarber(props) {
       Edit
     </Button>
   )
-  // <Link
-  //   href={'/barber/edit/' + record.id}
-  //   to='/'
-  // to={{
-  //   pathname: '/barber/edit/' + record.id,
-  //   state: { data: record }
-  // }}
-  // />
 }
 
 function deleteBarber(id) {
@@ -154,6 +146,7 @@ class BarberContent extends React.Component {
             description: data.description,
             service: [],
             workingDays: [],
+            image: data.image,
           };
           let tempService = [];
           let tempWorkingDays = [];
@@ -186,20 +179,19 @@ class BarberContent extends React.Component {
     let tempService = [];
     this.state.data.forEach((e) => {
       e.service.forEach((service) => {
+        let temp = {
+          text: service,
+          value: service,
+        };
         if (tempService.length < 1) {
           tempService.push(service);
+          filterServices.push(temp);
         }
         if (!tempService.includes(service)) {
           tempService.push(service);
+          filterServices.push(temp);
         }
       });
-    });
-    tempService.forEach((e) => {
-      let temp = {
-        text: e,
-        value: e,
-      };
-      filterServices.push(temp);
     });
   };
 

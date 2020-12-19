@@ -1,10 +1,11 @@
-import { Breadcrumb, Layout, Form, Input, Select, Tag, InputNumber, Button } from 'antd';
-import React from 'react';
+import { Breadcrumb, Layout, Form, Input, Select, Tag, InputNumber, Button, Upload, message } from 'antd';
+import React, { useState } from 'react';
 import HeaderNav from '../../HeaderNav';
 import Navigation from '../../Navigation';
 import { Content, Footer } from 'antd/lib/layout/layout';
 import AdminService from '../../../services/admin.service';
 import { Redirect } from 'react-router-dom';
+import { UploadOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -75,12 +76,12 @@ const formItemLayout = {
 const tailFormItemLayout = {
     wrapperCol: {
         xs: {
-            span: 24,
-            offset: 0,
+            span: 12,
+            offset: 4,
         },
         sm: {
-            span: 16,
-            offset: 8,
+            span: 24,
+            offset: 4,
         },
     },
 };
@@ -90,6 +91,7 @@ class BarberAdd extends React.Component {
         current: 'Add Barber',
         serviceList: [],
         redirect: false,
+        image: ''
     };
 
     componentDidMount() {
@@ -118,7 +120,7 @@ class BarberAdd extends React.Component {
     }
 
     render() {
-        let { current, serviceList, redirect } = this.state;
+        let { current, serviceList, redirect, image } = this.state;
         if (redirect)
             return <Redirect to='/barber' />
         return (
@@ -228,6 +230,25 @@ class BarberAdd extends React.Component {
                                             ))}
                                         </Select>
                                     </Form.Item>
+                                    {/* <Form.Item {...tailFormItemLayout}>
+                                        <Upload
+                                            action={AdminService.}
+                                            fileList={image}
+                                            showUploadList={true}
+                                            beforeUpload={(file) => {
+                                                const isPng = file.type === 'image/png'
+                                                if (!isPng) {
+                                                    message.error('You can only upload png file');
+                                                    return false;
+                                                }
+                                                else {
+                                                    return true;
+                                                }
+                                            }}
+                                        >
+                                            <Button icon={<UploadOutlined />}></Button>
+                                        </Upload>
+                                    </Form.Item> */}
                                     <Form.Item
                                         {...tailFormItemLayout}
                                     >

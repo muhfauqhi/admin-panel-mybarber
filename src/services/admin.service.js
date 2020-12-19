@@ -75,6 +75,30 @@ const addBarber = (data) => {
   });
 }
 
+const uploadPhotoBarber = (image, id) => {
+  return axios.post(API_URL + 'barber/upload/' + id, image, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  });
+}
+
+const getBookingAll = () => {
+  return axios.get(API_URL + 'booking', { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  });
+}
+
+const deleteBooking = (id) => {
+  return axios.delete(API_URL + 'booking/' + id, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  });
+}
+
 export default {
   getUserAll,
   getBarberAll,
@@ -87,4 +111,7 @@ export default {
   createUser,
   deleteUser,
   addBarber,
+  uploadPhotoBarber,
+  getBookingAll,
+  deleteBooking,
 };
