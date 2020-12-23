@@ -103,6 +103,8 @@ class UserContent extends React.Component {
   render() {
     return (
       <Table
+        tableLayout='fixed'
+        pagination={this.props.pagination}
         loading={this.state.loading}
         dataSource={this.state.data}
         columns={columns}

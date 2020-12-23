@@ -14,6 +14,7 @@ import BarberAdd from './components/menu/Barbers/Barber.Add';
 import UserAdd from './components/menu/Users/User.Add';
 import ServiceAdd from './components/menu/Services/Service.Add';
 import BarberEdit from './components/menu/Barbers/Barber.Edit';
+import BookingEdit from './components/menu/Bookings/Booking.Edit';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path='/login' component={Login}></Route>
         <Route exact path='/dashboard' component={Dashboard}></Route>
         <Route exact path='/booking' component={Booking}></Route>
+        <Route exact path='/booking/edit/:id' component={BookingEdit}></Route>
         <Route exact path='/barber' component={Barber}></Route>
         <Route exact path='/barber/edit/:id' component={BarberEdit}></Route>
         <Route exact path='/barber/add' component={BarberAdd}></Route>

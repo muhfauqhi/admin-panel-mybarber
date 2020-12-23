@@ -199,6 +199,8 @@ class BarberContent extends React.Component {
     let { data, loading, } = this.state;
     return (
       <Table
+        tableLayout='fixed'
+        pagination={this.props.pagination}
         loading={loading}
         dataSource={data}
         columns={columns}

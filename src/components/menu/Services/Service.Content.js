@@ -61,6 +61,8 @@ class ServiceContent extends React.Component {
   render() {
     return (
       <Table
+        tableLayout='fixed'
+        pagination={this.props.pagination} q
         loading={this.state.loading}
         dataSource={this.state.data}
         columns={columns}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Space, Table, Tag } from 'antd';
 import AdminService from '../../../services/admin.service';
+import { useHistory } from 'react-router-dom';
 
 function tagColor(status) {
     switch (status) {
@@ -28,7 +29,7 @@ const columns = [
         title: 'Booking ID',
         dataIndex: 'bookingId',
         key: 'bookingId',
-        render: (text, record) => <a href={'booking/' + record._id}>{text}</a>,
+        render: (text, record) => <a href={'booking/' + record._id}>{text.toUpperCase()}</a>,
     },
     {
         title: 'Status',
@@ -39,6 +40,7 @@ const columns = [
             return record.status.includes(value);
         },
         render: (text) => <Tag color={tagColor(text)}>{text}</Tag>,
+        editable: true,
     },
     {
         title: 'Barber',
@@ -81,13 +83,7 @@ const columns = [
         key: 'action',
         render: (record) => (
             <Space size='middle' >
-                <Button
-                    // href='/booking'
-                    // onClick={}
-                    type='primary'
-                >
-                    Update
-              </Button>
+                {/* <EditBooking record={record} /> */}
                 <Button
                     href='/booking'
                     onClick={() => deleteBooking(record._id)}
@@ -99,6 +95,26 @@ const columns = [
         )
     }
 ];
+
+function EditBooking(props) {
+    let history = useHistory();
+
+    function handleClick() {
+        history.push({
+            pathname: '/booking/edit/' + props.record.id,
+            state: props.record
+        });
+    }
+
+    return (
+        <Button
+            onClick={handleClick}
+            type='primary'
+        >
+            Edit
+        </Button>
+    )
+}
 
 class BookingContent extends React.Component {
     state = {
@@ -129,6 +145,8 @@ class BookingContent extends React.Component {
         let { data, loading, } = this.state;
         return (
             <Table
+                tableLayout='fixed'
+                pagination={this.props.pagination}
                 loading={loading}
                 dataSource={data}
                 columns={columns}
