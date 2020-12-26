@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button, Space, Table, Tag } from 'antd';
+import { Button, Dropdown, Menu, Space, Table, Tag } from 'antd';
 import AdminService from '../../../services/admin.service';
-import { useHistory } from 'react-router-dom';
 
 function tagColor(status) {
     switch (status) {
@@ -83,7 +82,15 @@ const columns = [
         key: 'action',
         render: (record) => (
             <Space size='middle' >
-                {/* <EditBooking record={record} /> */}
+                <Dropdown
+                    trigger={['click']}
+                    overlay={menu(record.status, record._id)}
+                >
+                    <Button
+                        type='primary'>
+                        Edit
+                </Button>
+                </Dropdown>
                 <Button
                     href='/booking'
                     onClick={() => deleteBooking(record._id)}
@@ -96,25 +103,86 @@ const columns = [
     }
 ];
 
-function EditBooking(props) {
-    let history = useHistory();
-
-    function handleClick() {
-        history.push({
-            pathname: '/booking/edit/' + props.record.id,
-            state: props.record
-        });
+function checkStatus(status, buttonStatus, id) {
+    console.log(id)
+    if (buttonStatus === 'Pending') {
+        if (status === 'Pending')
+            return true;
+        else if (status === 'On Process')
+            return true;
+        else if (status === 'Finished')
+            return true;
+        else
+            return false;
+    } else if (buttonStatus === 'Booked') {
+        if (status === 'Booked')
+            return true;
+        else if (status === 'On Process')
+            return true;
+        else if (status === 'Finished')
+            return true;
+        else
+            return false;
+    } else if (buttonStatus === 'On Process') {
+        if (status === 'On Process')
+            return true;
+        else if (status === 'Finished')
+            return true;
+        else
+            return false;
+    } else if (buttonStatus === 'Finished') {
+        if (status === 'Finished')
+            return true;
     }
-
-    return (
-        <Button
-            onClick={handleClick}
-            type='primary'
-        >
-            Edit
-        </Button>
-    )
 }
+
+const menu = (status, id) => {
+    return (
+        <Menu>
+            <Menu.Item
+                disabled={checkStatus(status, 'Pending', id)}
+                onClick={() => {
+                    AdminService.updateBookingStatus({ status: 'Pending' }, id).then((res) => {
+                        console.log(res);
+                    });
+                }}
+            >
+                Pending
+            </Menu.Item>
+            <Menu.Item
+                disabled={checkStatus(status, 'Booked')}
+                onClick={() => {
+                    AdminService.updateBookingStatus({ status: 'Booked' }, id).then((res) => {
+                        console.log(res);
+                    });
+                }
+                }
+            >
+                Booked
+             </Menu.Item>
+            <Menu.Item
+                disabled={checkStatus(status, 'On Process')}
+                onClick={() => {
+                    AdminService.updateBookingStatus({ status: 'On Process' }, id).then((res) => {
+                        console.log(res);
+                    });
+                }}
+            >
+                On Process
+             </Menu.Item>
+            <Menu.Item
+                disabled={checkStatus(status, 'Finished')}
+                onClick={() => {
+                    AdminService.updateBookingStatus({ status: 'Finished' }, id).then((res) => {
+                        console.log(res);
+                    });
+                }}
+            >
+                Finished
+             </Menu.Item>
+        </Menu >
+    )
+};
 
 class BookingContent extends React.Component {
     state = {

@@ -99,6 +99,14 @@ const deleteBooking = (id) => {
   });
 }
 
+const updateBookingStatus = (status, id) => {
+  return axios.put(API_URL + 'booking/' + id, status, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  })
+}
+
 export default {
   getUserAll,
   getBarberAll,
@@ -114,4 +122,5 @@ export default {
   uploadPhotoBarber,
   getBookingAll,
   deleteBooking,
+  updateBookingStatus,
 };
