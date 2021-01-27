@@ -30,7 +30,7 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (text, record) => <a href={'barber/' + record.id}>{text}</a>,
+    render: (name, record) => <a href={'barber/' + record.id}>{name}</a>,
   },
   {
     title: 'Rate',
@@ -48,14 +48,20 @@ const columns = [
     key: 'workingDays',
     filters: filterWorkingDays,
     onFilter: (value, record) => {
-      return record.workingDays.includes(value);
+      var flag = false;
+      for (var i = 0; i < record.workingDays.length; i++) {
+        if (value === record.workingDays[i].days) {
+          flag = true;
+        }
+      }
+      return flag;
     },
     render: (workingDays) => (
       <>
         {workingDays.map((workingDays) => {
           return (
             <Tag color='blue' key={workingDays}>
-              {workingDays}
+              {workingDays.days}
             </Tag>
           );
         })}
@@ -68,14 +74,20 @@ const columns = [
     dataIndex: 'service',
     filters: filterServices,
     onFilter: (value, record) => {
-      return record.service.includes(value);
+      var flag = false;
+      for (var i = 0; i < record.service.length; i++) {
+        if (value === record.service[i].id) {
+          flag = true;
+        }
+      }
+      return flag;
     },
     render: (service) => (
       <>
         {service.map((service) => {
           return (
-            <Tag color='green' key={service}>
-              {service.toUpperCase()}
+            <Tag color='green' key={service.id}>
+              {service.name.toUpperCase()}
             </Tag>
           );
         })}
@@ -151,10 +163,16 @@ class BarberContent extends React.Component {
           let tempService = [];
           let tempWorkingDays = [];
           data.service_id.forEach((service) => {
-            tempService.push(service.name);
+            tempService.push({
+              id: service._id,
+              name: service.name,
+            });
           });
           data.workingDays.forEach((days) => {
-            tempWorkingDays.push(weekDays[days]);
+            tempWorkingDays.push({
+              id: days,
+              days: weekDays[days],
+            });
           });
 
           temp.service = tempService;
@@ -180,15 +198,11 @@ class BarberContent extends React.Component {
     this.state.data.forEach((e) => {
       e.service.forEach((service) => {
         let temp = {
-          text: service,
-          value: service,
+          text: service.name,
+          value: service.id,
         };
-        if (tempService.length < 1) {
-          tempService.push(service);
-          filterServices.push(temp);
-        }
-        if (!tempService.includes(service)) {
-          tempService.push(service);
+        if (!tempService.includes(service.name)) {
+          tempService.push(service.name);
           filterServices.push(temp);
         }
       });

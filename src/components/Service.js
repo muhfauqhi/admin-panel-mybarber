@@ -24,7 +24,7 @@ class Service extends React.Component {
                 <Breadcrumb.Item>{current}</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
-                <ServiceContent />
+                <ServiceContent pagination={{ pageSize: 5 }} />
                 <Button href='/service/add'
                   // style={{ float: 'right' }} 
                   type='primary'>

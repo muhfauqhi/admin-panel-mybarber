@@ -107,6 +107,14 @@ const updateBookingStatus = (status, id) => {
   })
 }
 
+const updateBarber = (id, body) => {
+  return axios.put(API_URL + 'barber/' + id, body, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  })
+}
+
 export default {
   getUserAll,
   getBarberAll,
@@ -123,4 +131,5 @@ export default {
   getBookingAll,
   deleteBooking,
   updateBookingStatus,
+  updateBarber,
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Dropdown, Menu, Space, Table, Tag } from 'antd';
 import AdminService from '../../../services/admin.service';
+import moment from 'moment';
 
 function tagColor(status) {
     switch (status) {
@@ -60,22 +61,27 @@ const columns = [
         title: 'Service',
         dataIndex: 'service',
         key: 'service',
-        render: (_, record) => record.service.name,
+        render: (_, record) => <Tag color='green'>{record.service[0].name.toUpperCase()}</Tag>,
     },
     {
         title: 'Booking Date',
         dataIndex: 'bookDate',
         key: 'bookDate',
+        render: (_, record) => moment(record.bookDate).format('MMMM DD YYYY hh:mm:ss A'),
+
     },
     {
         title: 'Created',
         dataIndex: 'createdAt',
         key: 'createdAt',
+        render: (_, record) => moment(record.createdAt).format('MMMM DD YYYY hh:mm:ss A'),
     },
     {
         title: 'Updated',
         dataIndex: 'updatedAt',
         key: 'updatedAt',
+        render: (_, record) => moment(record.updatedAt).format('MMMM DD YYYY hh:mm:ss A'),
+
     },
     {
         title: 'Action',
@@ -104,7 +110,6 @@ const columns = [
 ];
 
 function checkStatus(status, buttonStatus, id) {
-    console.log(id)
     if (buttonStatus === 'Pending') {
         if (status === 'Pending')
             return true;
@@ -195,6 +200,7 @@ class BookingContent extends React.Component {
         fetch(
             AdminService.getBookingAll().then((res) => {
                 const booking = res.data.data;
+                console.log(booking);
                 this.setState({
                     data: booking,
                     loading: false,

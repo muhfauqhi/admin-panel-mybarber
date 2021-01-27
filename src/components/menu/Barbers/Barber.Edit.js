@@ -5,6 +5,8 @@ import Navigation from '../../Navigation';
 import { Content, Footer } from 'antd/lib/layout/layout';
 import AdminService from '../../../services/admin.service';
 import { UploadOutlined } from '@ant-design/icons';
+import { Redirect } from 'react-router-dom';
+
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -90,6 +92,7 @@ class BarberEdit extends React.Component {
     state = {
         current: 'Edit Barber',
         serviceList: [],
+        redirect: false,
     };
 
     componentDidMount() {
@@ -127,14 +130,21 @@ class BarberEdit extends React.Component {
     }
 
     onFinish = (values) => {
-        // AdminService.updat
+        AdminService.updateBarber(this.props.match.params.id, values).then((res) => {
+            this.setState({
+                redirect: true,
+            });
+        });
     }
 
     render() {
-        let { current, serviceList } = this.state;
+        let { current, serviceList, redirect } = this.state;
         const props = this.props.location.state;
         const imageName = props.image.substring(19, props.image.length);
         const urlImage = 'http://localhost:3000/' + imageName;
+
+        if (redirect)
+            return <Redirect to='/barber' />
         return (
             <Layout>
                 <HeaderNav />
@@ -158,8 +168,8 @@ class BarberEdit extends React.Component {
                                         name: props.name,
                                         rate: props.rate,
                                         description: props.description,
-                                        workingDays: props.workingDays,
-                                        serviceId: props.service
+                                        workingDays: props.workingDays.map((workingDays) => workingDays.id),
+                                        serviceId: props.service.map((service) => service.id)
                                     }}
                                 >
                                     <Form.Item

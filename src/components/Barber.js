@@ -29,7 +29,7 @@ class Barber extends React.Component {
                 <Breadcrumb.Item>{current}</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
-                <BarberContent />
+                <BarberContent pagination={{ pageSize: 5 }} />
                 <Button href='/barber/add'
                   // style={{ float: 'right' }} 
                   type='primary'>

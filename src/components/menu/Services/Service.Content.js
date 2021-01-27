@@ -1,12 +1,18 @@
 import AdminService from '../../../services/admin.service';
 import React from 'react';
-import { Button, Space, Table } from 'antd';
+import { Button, Space, Table, Tag } from 'antd';
 
 const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    render: (_, record) =>
+      <a href={'service/' + record.id}>
+        <Tag color='green'>
+          {record.name.toUpperCase()}
+        </Tag>
+      </a>,
   },
   {
     title: 'Duration',

@@ -25,7 +25,7 @@ class Booking extends React.Component {
                                 <Breadcrumb.Item>{current}</Breadcrumb.Item>
                             </Breadcrumb>
                             <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
-                                <BookingContent />
+                                <BookingContent pagination={{ pageSize: 5 }} />
                             </div>
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>

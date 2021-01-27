@@ -81,7 +81,7 @@ class UserContent extends React.Component {
             email: data.email,
             role: data.role,
             phone: data.phone,
-            createdAt: moment(data.createdAt).format('MMMM DD YYYY hh:mm:ss A'),
+            createdAt: moment(data.createdAt).format('MMMM DD YYYY'),
           };
           result.push(temp);
         });

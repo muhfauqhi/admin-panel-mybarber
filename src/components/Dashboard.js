@@ -25,10 +25,10 @@ class Dashboard extends React.Component {
                 <Breadcrumb.Item>{this.state.current}</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
-                <BookingContent pagination={false} />
-                <BarberContent pagination={false} />
-                <ServiceContent pagination={false} />
-                <UserContent pagination={false} />
+                <BookingContent pagination={{ pageSize: 5 }} />
+                <BarberContent pagination={{ pageSize: 5 }} />
+                <ServiceContent pagination={{ pageSize: 5 }} />
+                <UserContent pagination={{ pageSize: 5 }} />
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
