@@ -29,7 +29,7 @@ const columns = [
         title: 'Booking ID',
         dataIndex: 'bookingId',
         key: 'bookingId',
-        render: (text, record) => <a href={'booking/' + record._id}>{text.toUpperCase()}</a>,
+        render: (text, record) => text.toUpperCase(),
     },
     {
         title: 'Status',
@@ -67,7 +67,7 @@ const columns = [
         title: 'Booking Date',
         dataIndex: 'bookDate',
         key: 'bookDate',
-        render: (_, record) => moment(record.bookDate).format('MMMM DD YYYY hh:mm:ss A'),
+        render: (_, record) => moment(record.bookDate).format('llll'),
 
     },
     {
@@ -148,43 +148,39 @@ const menu = (status, id) => {
                 disabled={checkStatus(status, 'Pending', id)}
                 onClick={() => {
                     AdminService.updateBookingStatus({ status: 'Pending' }, id).then((res) => {
-                        console.log(res);
                     });
                 }}
             >
-                Pending
+                <a href=''>Pending</a>
             </Menu.Item>
             <Menu.Item
                 disabled={checkStatus(status, 'Booked')}
                 onClick={() => {
                     AdminService.updateBookingStatus({ status: 'Booked' }, id).then((res) => {
-                        console.log(res);
                     });
                 }
                 }
             >
-                Booked
-             </Menu.Item>
+                <a href=''>Booked</a>
+            </Menu.Item>
             <Menu.Item
                 disabled={checkStatus(status, 'On Process')}
                 onClick={() => {
                     AdminService.updateBookingStatus({ status: 'On Process' }, id).then((res) => {
-                        console.log(res);
                     });
                 }}
             >
-                On Process
-             </Menu.Item>
+                <a href=''>On Process</a>
+            </Menu.Item>
             <Menu.Item
                 disabled={checkStatus(status, 'Finished')}
                 onClick={() => {
                     AdminService.updateBookingStatus({ status: 'Finished' }, id).then((res) => {
-                        console.log(res);
                     });
                 }}
             >
-                Finished
-             </Menu.Item>
+                <a href=''>Finished</a>
+            </Menu.Item>
         </Menu >
     )
 };
@@ -200,7 +196,6 @@ class BookingContent extends React.Component {
         fetch(
             AdminService.getBookingAll().then((res) => {
                 const booking = res.data.data;
-                console.log(booking);
                 this.setState({
                     data: booking,
                     loading: false,

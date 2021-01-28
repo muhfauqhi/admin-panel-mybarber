@@ -114,6 +114,22 @@ const updateBarber = (id, body) => {
     return error;
   })
 }
+const updateService = (id, body) => {
+  return axios.put(API_URL + 'service/' + id, body, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  })
+}
+
+const updateUserRole = (id, role) => {
+  return axios.put(API_URL + 'user/' + id, { 'role': role }, { headers: authHeader() }).then((res) => {
+    return res;
+  }).catch((error) => {
+    return error;
+  })
+}
+
 
 export default {
   getUserAll,
@@ -132,4 +148,6 @@ export default {
   deleteBooking,
   updateBookingStatus,
   updateBarber,
+  updateService,
+  updateUserRole,
 };

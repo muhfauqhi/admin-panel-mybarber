@@ -15,6 +15,7 @@ import UserAdd from './components/menu/Users/User.Add';
 import ServiceAdd from './components/menu/Services/Service.Add';
 import BarberEdit from './components/menu/Barbers/Barber.Edit';
 import BookingEdit from './components/menu/Bookings/Booking.Edit';
+import ServiceEdit from './components/menu/Services/Service.Edit';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route exact path='/forgotpassword' component={ForgotPassword}></Route>
         <Route exact path='/user/add' component={UserAdd}></Route>
         <Route exact path='/service/add' component={ServiceAdd}></Route>
+        <Route exact path='/service/edit/:id' component={ServiceEdit}></Route>
         <Route
           exact
           path='/resetpassword/:token'

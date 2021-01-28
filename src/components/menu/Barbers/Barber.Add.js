@@ -1,11 +1,10 @@
-import { Breadcrumb, Layout, Form, Input, Select, Tag, InputNumber, Button, Upload, message } from 'antd';
-import React, { useState } from 'react';
+import { Breadcrumb, Button, Form, Input, InputNumber, Layout, Select, Tag } from 'antd';
+import { Content, Footer } from 'antd/lib/layout/layout';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import AdminService from '../../../services/admin.service';
 import HeaderNav from '../../HeaderNav';
 import Navigation from '../../Navigation';
-import { Content, Footer } from 'antd/lib/layout/layout';
-import AdminService from '../../../services/admin.service';
-import { Redirect } from 'react-router-dom';
-import { UploadOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -91,7 +90,7 @@ class BarberAdd extends React.Component {
         current: 'Add Barber',
         serviceList: [],
         redirect: false,
-        image: ''
+        // image: ''
     };
 
     componentDidMount() {
@@ -120,7 +119,7 @@ class BarberAdd extends React.Component {
     }
 
     render() {
-        let { current, serviceList, redirect, image } = this.state;
+        let { current, serviceList, redirect, } = this.state;
         if (redirect)
             return <Redirect to='/barber' />
         return (

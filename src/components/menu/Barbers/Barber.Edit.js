@@ -160,7 +160,7 @@ class BarberEdit extends React.Component {
                             <div style={{ background: '#fff', padding: 24, minHeight: 580 }}>
                                 <Form
                                     {...formItemLayout}
-                                    name='Add Barber'
+                                    name='Edit Barber'
                                     hideRequiredMark
                                     scrollToFirstError
                                     onFinish={this.onFinish}

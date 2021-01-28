@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Space, Table } from 'antd';
+import { Button, Dropdown, Menu, Space, Table } from 'antd';
 import AdminService from '../../../services/admin.service';
 import moment from 'moment';
 
@@ -7,6 +7,27 @@ const filterRoles = [
   { text: 'Admin', value: 'Admin' },
   { text: 'Customer', value: 'Customer' },
 ];
+
+const menu = (id) => {
+  return (
+    <Menu>
+      <Menu.Item
+        onClick={() => {
+          AdminService.updateUserRole(id, 'Admin').then((res) => {
+          })
+        }}>
+        <a href=''>Admin</a>
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          AdminService.updateUserRole(id, 'Customer').then((res) => {
+          })
+        }}>
+        <a href=''>Customer</a>
+      </Menu.Item>
+    </Menu >
+  )
+};
 
 const columns = [
   {
@@ -48,7 +69,15 @@ const columns = [
     key: 'action',
     render: (record) => (
       <Space size='middle' >
-        <Button href={'/user/edit/' + record.id} type='primary'>Edit</Button>
+        <Dropdown
+          trigger={['click']}
+          overlay={menu(record.id)}
+        >
+          <Button
+            type='primary'>
+            Edit
+                </Button>
+        </Dropdown>
         <Button href='/user' onClick={() => deleteUser(record.id)} type='danger'>Delete</Button>
       </Space >
     )

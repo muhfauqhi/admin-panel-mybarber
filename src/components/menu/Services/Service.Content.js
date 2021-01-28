@@ -1,6 +1,7 @@
 import AdminService from '../../../services/admin.service';
 import React from 'react';
 import { Button, Space, Table, Tag } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 const columns = [
   {
@@ -8,7 +9,7 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     render: (_, record) =>
-      <a href={'service/' + record.id}>
+      <a href={'service/' + record._id}>
         <Tag color='green'>
           {record.name.toUpperCase()}
         </Tag>
@@ -18,18 +19,39 @@ const columns = [
     title: 'Duration',
     dataIndex: 'duration',
     key: 'duration',
+    render: (_, record) => record.duration / 60 + ' hour(s)'
   },
   {
     title: 'Action',
     key: 'action',
     render: (record) => (
       <Space size='middle' >
-        <Button href={'/service/edit/' + record.id} type='primary'>Edit</Button>
-        <Button href='/service' onClick={() => deleteService(record.id)} type='danger'>Delete</Button>
+        <EditService record={record} />
+        <Button href='/service' onClick={() => deleteService(record._id)} type='danger'>Delete</Button>
       </Space >
     )
   }
 ];
+
+function EditService(props) {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push({
+      pathname: '/service/edit/' + props.record._id,
+      state: props.record
+    });
+  }
+
+  return (
+    <Button
+      onClick={handleClick}
+      type='primary'
+    >
+      Edit
+    </Button>
+  )
+}
 
 function deleteService(id) {
   AdminService.deleteService(id).then((res) => {
@@ -46,17 +68,8 @@ class ServiceContent extends React.Component {
     fetch(
       AdminService.getServiceAll().then((response) => {
         const service = response.data.data;
-        let result = [];
-        service.forEach((data) => {
-          let temp = {
-            id: data._id,
-            name: data.name,
-            duration: data.duration / 60 + ' hour(s)',
-          };
-          result.push(temp);
-        });
         this.setState({
-          data: result,
+          data: service,
           loading: false,
         });
       }),

@@ -110,7 +110,7 @@ class UserAdd extends React.Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Row gutter={16}>
+                                    {/* <Row gutter={16}>
                                         <Col span={24}>
                                             <Form.Item
                                                 name='description'
@@ -118,7 +118,7 @@ class UserAdd extends React.Component {
                                                 <Input.TextArea rows={4} placeholder='Please enter description' />
                                             </Form.Item>
                                         </Col>
-                                    </Row>
+                                    </Row> */}
                                     <Form.Item>
                                         <Button type='primary' htmlType='submit'>Add Service</Button>
                                     </Form.Item>
