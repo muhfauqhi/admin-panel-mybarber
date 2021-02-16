@@ -1,12 +1,9 @@
-import { Breadcrumb, Layout, Form, Input, InputNumber, Tag, Button, Select, Upload } from 'antd';
+import { Breadcrumb, Button, Form, Input, InputNumber, Layout } from 'antd';
+import { Content, Footer } from 'antd/lib/layout/layout';
 import React from 'react';
 import HeaderNav from '../../HeaderNav';
 import Navigation from '../../Navigation';
-import { Content, Footer } from 'antd/lib/layout/layout';
-import AdminService from '../../../services/admin.service';
-import { UploadOutlined } from '@ant-design/icons';
 
-const { Option } = Select;
 const { TextArea } = Input;
 
 const formItemLayout = {

@@ -9,6 +9,7 @@ function tagColor(status) {
         case 'Pending': return 'yellow';
         case 'Booked': return 'blue';
         case 'On Process': return 'geekblue';
+        default: return 'green';
     }
 }
 
@@ -16,6 +17,8 @@ function deleteBooking(id) {
     AdminService.deleteBooking(id).then((res) => {
     });
 }
+
+let filterServices = [];
 
 const filterStatus = [
     { text: 'Finished', value: 'Finished' },
@@ -59,9 +62,29 @@ const columns = [
     },
     {
         title: 'Service',
-        dataIndex: 'service',
         key: 'service',
-        render: (_, record) => <Tag color='green'>{record.service[0].name.toUpperCase()}</Tag>,
+        dataIndex: 'service',
+        filters: filterServices,
+        onFilter: (value, record) => {
+            var flag = false;
+            for (var i = 0; i < record.service.length; i++) {
+                if (value === record.service[i]._id) {
+                    flag = true;
+                }
+            }
+            return flag;
+        },
+        render: (service) => (
+            <>
+                {service.map((service) => {
+                    return (
+                        <Tag color='green' key={service.id}>
+                            {service.name.toUpperCase()}
+                        </Tag>
+                    );
+                })}
+            </>
+        ),
     },
     {
         title: 'Booking Date',
@@ -200,9 +223,26 @@ class BookingContent extends React.Component {
                     data: booking,
                     loading: false,
                 });
+                if (filterServices.length < 1) this.setFilterService();
             })
         );
     }
+
+    setFilterService = () => {
+        let tempService = [];
+        this.state.data.forEach((e) => {
+            e.service.forEach((service) => {
+                let temp = {
+                    text: service.name,
+                    value: service._id,
+                };
+                if (!tempService.includes(service.name)) {
+                    tempService.push(service.name);
+                    filterServices.push(temp);
+                }
+            });
+        });
+    };
 
     handleTableChange = (pagination, filters, sorter) => {
         this.setState({
